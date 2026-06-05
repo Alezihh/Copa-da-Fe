@@ -709,68 +709,114 @@ function Emotional() {
 /* ---------------- Offer ---------------- */
 
 function Offer() {
-  const includes = [
-    "Álbum Completo",
-    "Mais de 150 Figurinhas",
-    "Certificado Campeão da Fé",
-    "Quiz Bíblico",
-    "Desafios em Família",
+  const basic = [
+    "Álbum completo para impressão",
+    "50 figurinhas dos Patriarcas e Líderes",
+    "Acesso imediato em PDF",
   ];
+  const premium = [
+    "Álbum completo para impressão",
+    "Mais de 150 figurinhas exclusivas",
+    "Todas as 8 categorias bíblicas",
+    "Certificado Campeão da Fé",
+    "Quiz Bíblico Infantil",
+    "Desafios Bíblicos em Família",
+    "Atualizações futuras grátis",
+  ];
+
   return (
     <section id="oferta" className="bg-cream py-28">
-      <div className="container mx-auto max-w-3xl px-6">
+      <div className="container mx-auto max-w-5xl px-6">
         <Reveal className="text-center">
           <SectionNumber n="07" label="A Oferta" />
+          <h2 className="mt-6 font-display text-4xl font-semibold leading-tight tracking-tight text-navy-deep sm:text-5xl">
+            Escolha o seu <em className="text-gold">plano</em>
+          </h2>
+          <p className="mt-3 text-navy-deep/60">Acesso imediato após a confirmação do pagamento</p>
         </Reveal>
 
-        <Reveal delay={0.1}>
-          <div className="mt-10 overflow-hidden rounded-3xl border border-navy-deep/10 bg-white shadow-premium">
-            {/* Header strip */}
-            <div className="flex items-center justify-between border-b border-navy-deep/10 bg-navy-deep px-8 py-4 text-cream">
-              <div className="flex items-center gap-3">
-                <span className="flex h-2 w-2 animate-pulse rounded-full bg-gold" />
-                <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-gold">Oferta Especial</span>
+        <div className="mt-14 grid gap-8 md:grid-cols-2 items-start">
+
+          {/* ---- Plano Básico R$19,90 ---- */}
+          <Reveal delay={0.05}>
+            <div className="overflow-hidden rounded-3xl border border-navy-deep/15 bg-white shadow-md">
+              <div className="bg-navy-deep/8 px-8 py-5 border-b border-navy-deep/10">
+                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-navy-deep/50">Plano Essencial</p>
+                <h3 className="mt-1 font-display text-2xl font-semibold text-navy-deep">A Copa da Fé · Básico</h3>
               </div>
-              <span className="text-[11px] uppercase tracking-wider text-cream/60">Edição Limitada</span>
-            </div>
-
-            <div className="p-8 sm:p-12">
-              <div className="text-center">
-                <Eyebrow>O Produto</Eyebrow>
-                <h3 className="mt-4 font-display text-3xl font-semibold text-navy-deep sm:text-5xl">A Copa da Fé</h3>
-                <p className="mt-2 text-sm text-navy-deep/60">O álbum completo · Todos os bônus · Acesso imediato</p>
-              </div>
-
-              <ul className="mx-auto mt-10 max-w-md space-y-2.5">
-                {includes.map((it, i) => (
-                  <li key={i} className="flex items-center gap-3 border-b border-navy-deep/10 py-3 last:border-0">
-                    <Check className="h-4 w-4 shrink-0 text-gold" strokeWidth={3} />
-                    <span className="font-medium text-navy-deep">{it}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="mx-auto mt-12 max-w-md rounded-2xl bg-cream p-8 text-center">
-                <div className="text-xs font-semibold uppercase tracking-wider text-navy-deep/50">
-                  De <span className="line-through">R$ 89,90</span> por apenas
+              <div className="p-8">
+                <ul className="space-y-3">
+                  {basic.map((it, i) => (
+                    <li key={i} className="flex items-center gap-3">
+                      <Check className="h-4 w-4 shrink-0 text-purple-elegant" strokeWidth={3} />
+                      <span className="text-sm font-medium text-navy-deep">{it}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-8 rounded-2xl bg-navy-deep/5 p-6 text-center">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-navy-deep/45">De <span className="line-through">R$ 49,90</span> por</p>
+                  <div className="mt-2 flex items-start justify-center gap-1">
+                    <span className="mt-2 font-display text-xl font-semibold text-navy-deep">R$</span>
+                    <span className="font-display text-6xl font-semibold leading-none text-navy-deep">19</span>
+                    <span className="mt-2 font-display text-2xl font-semibold text-navy-deep">,90</span>
+                  </div>
+                  <p className="mt-1 text-xs text-navy-deep/45">pagamento único</p>
                 </div>
-                <div className="mt-3 flex items-start justify-center gap-2">
-                  <span className="mt-3 font-display text-2xl font-semibold text-navy-deep">R$</span>
-                  <span className="font-display text-7xl font-semibold leading-none text-navy-deep sm:text-8xl">29</span>
-                  <span className="mt-3 font-display text-3xl font-semibold text-navy-deep">,90</span>
-                </div>
-                <div className="mt-3 text-xs uppercase tracking-wider text-navy-deep/50">
-                  ou 3× de R$ 9,97 sem juros
-                </div>
-              </div>
-
-              <div className="mt-10 flex flex-col items-center gap-6">
-                <PrimaryCTA className="w-full max-w-md">Quero começar minha coleção</PrimaryCTA>
-                <TrustRow />
+                <a
+                  href="#oferta"
+                  className="mt-6 flex w-full items-center justify-center gap-2 rounded-full border-2 border-navy-deep py-3.5 text-sm font-bold uppercase tracking-wider text-navy-deep transition hover:bg-navy-deep hover:text-cream"
+                >
+                  Quero o Básico
+                </a>
               </div>
             </div>
-          </div>
-        </Reveal>
+          </Reveal>
+
+          {/* ---- Plano Premium R$39,90 ---- */}
+          <Reveal delay={0.12}>
+            <div className="relative overflow-hidden rounded-3xl border-2 border-gold bg-white animate-glow-border">
+              {/* Badge "Mais Popular" */}
+              <div className="absolute right-5 top-5 z-10">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-gold px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-navy-deep shadow-gold">
+                  <Sparkles className="h-3 w-3" /> Mais Popular
+                </span>
+              </div>
+
+              {/* Header dourado */}
+              <div className="bg-gradient-to-r from-navy-deep to-purple-elegant px-8 py-5">
+                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-gold">Plano Completo</p>
+                <h3 className="mt-1 font-display text-2xl font-semibold text-cream">A Copa da Fé · Premium</h3>
+              </div>
+
+              <div className="p-8">
+                <ul className="space-y-3">
+                  {premium.map((it, i) => (
+                    <li key={i} className="flex items-center gap-3">
+                      <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gold/15">
+                        <Check className="h-3 w-3 text-gold" strokeWidth={3.5} />
+                      </div>
+                      <span className="text-sm font-medium text-navy-deep">{it}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-8 rounded-2xl bg-gradient-to-br from-gold/10 to-purple-elegant/10 p-6 text-center">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-navy-deep/50">De <span className="line-through">R$ 89,90</span> por apenas</p>
+                  <div className="mt-2 flex items-start justify-center gap-1">
+                    <span className="mt-2 font-display text-xl font-semibold text-navy-deep">R$</span>
+                    <span className="font-display text-6xl font-semibold leading-none text-navy-deep">39</span>
+                    <span className="mt-2 font-display text-2xl font-semibold text-navy-deep">,90</span>
+                  </div>
+                  <p className="mt-1 text-xs text-navy-deep/50">ou 3× de R$ 13,30 sem juros</p>
+                </div>
+                <PrimaryCTA className="mt-6 w-full">Quero o Completo</PrimaryCTA>
+                <div className="mt-5">
+                  <TrustRow />
+                </div>
+              </div>
+            </div>
+          </Reveal>
+
+        </div>
       </div>
     </section>
   );

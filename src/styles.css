@@ -154,3 +154,22 @@
 @utility pulse-cta {
   animation: pulse-glow 2.5s ease-in-out infinite;
 }
+
+@keyframes glow-border {
+  0%, 100% {
+    box-shadow:
+      0 0 0 0 oklch(0.82 0.17 74 / 0.55),
+      0 0 18px oklch(0.82 0.17 74 / 0.30),
+      0 8px 40px oklch(0.28 0.22 288 / 0.18);
+  }
+  50% {
+    box-shadow:
+      0 0 0 5px oklch(0.82 0.17 74 / 0.10),
+      0 0 40px oklch(0.82 0.17 74 / 0.55),
+      0 8px 40px oklch(0.28 0.22 288 / 0.25);
+  }
+}
+
+@utility animate-glow-border {
+  animation: glow-border 2.2s ease-in-out infinite;
+}
