@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useSpring, useTransform, useMotionValue, AnimatePresence } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import {
@@ -51,7 +51,7 @@ import photoPatricia   from "@/assets/depoimentos/patricia.jpg";
 import bannerMariana   from "@/assets/depoimentos/banner_mariana.png";
 import bannerRoberto   from "@/assets/depoimentos/banner_roberto.png";
 import bannerCleide    from "@/assets/depoimentos/banner_cleide.png";
-import bannerPatricia  from "@/assets/depoimentos/banner_patricia.jpg";
+import bannerPatricia  from "@/assets/depoimentos/banner_patricia_new.jpg";
 
 export const Route = createFileRoute("/")({
   component: SalesPage,
@@ -180,15 +180,32 @@ function CountdownTimer() {
   );
 }
 
-function PrimaryCTA({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+function PrimaryCTA({ children, className = "", href = "#oferta" }: { children: React.ReactNode; className?: string; href?: string }) {
+  const isExternal = href.startsWith("http");
   return (
-    <a
-      href="#oferta"
-      className={`group relative inline-flex items-center justify-center gap-3 rounded-full bg-gold px-8 py-4 text-sm font-bold uppercase tracking-wider text-navy-deep shadow-gold transition-all duration-300 hover:brightness-105 hover:shadow-[0_24px_60px_-12px_oklch(0.78_0.14_80/0.6)] ${className}`}
+    <motion.a
+      href={href}
+      {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      whileHover={{ scale: 1.04, boxShadow: "0 20px 50px -8px oklch(0.78 0.14 80 / 0.55)" }}
+      whileTap={{ scale: 0.96 }}
+      transition={{ type: "spring", stiffness: 400, damping: 20 }}
+      className={`group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-full bg-gold px-8 py-4 text-sm font-bold uppercase tracking-wider text-navy-deep shadow-gold ${className}`}
     >
+      {/* Shimmer sweep */}
+      <motion.span
+        className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-[-20deg]"
+        animate={{ translateX: ["−100%", "200%"] }}
+        transition={{ duration: 2.4, repeat: Infinity, repeatDelay: 1.5, ease: "easeInOut" }}
+      />
       <span className="relative z-10">{children}</span>
-      <ArrowRight className="relative z-10 h-4 w-4 transition-transform group-hover:translate-x-1" />
-    </a>
+      <motion.span
+        className="relative z-10"
+        animate={{ x: [0, 4, 0] }}
+        transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <ArrowRight className="h-4 w-4" />
+      </motion.span>
+    </motion.a>
   );
 }
 
@@ -210,23 +227,203 @@ function GoldRule() {
   return <div className="mx-auto h-px w-16 bg-gold" />;
 }
 
+/* ---------------- Scroll Progress Bar ---------------- */
+
+function ScrollProgressBar() {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 200, damping: 30, restDelta: 0.001 });
+  return (
+    <motion.div
+      style={{ scaleX, transformOrigin: "left" }}
+      className="fixed top-0 left-0 right-0 z-[60] h-[3px] bg-gold shadow-[0_0_12px_oklch(0.78_0.14_80/0.8)]"
+    />
+  );
+}
+
+/* ---------------- Floating Particles ---------------- */
+
+function FloatingParticles() {
+  const particles = Array.from({ length: 24 }, (_, i) => ({
+    id: i,
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    size: Math.random() * 5 + 2,
+    duration: Math.random() * 12 + 8,
+    delay: Math.random() * 6,
+    opacity: Math.random() * 0.4 + 0.1,
+  }));
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      {particles.map((p) => (
+        <motion.div
+          key={p.id}
+          className="absolute rounded-full bg-gold"
+          style={{ left: `${p.x}%`, top: `${p.y}%`, width: p.size, height: p.size, opacity: p.opacity }}
+          animate={{ y: [-24, 24, -24], x: [-8, 8, -8], opacity: [p.opacity * 0.4, p.opacity, p.opacity * 0.4] }}
+          transition={{ duration: p.duration, delay: p.delay, repeat: Infinity, ease: "easeInOut" }}
+        />
+      ))}
+    </div>
+  );
+}
+
 /* ---------------- Top Bar ---------------- */
 
 function TopBar() {
+  const [deadline]  = useState<number>(() => getDeadline());
+  const [timeLeft, setTimeLeft] = useState(Math.max(0, deadline - Date.now()));
+  const isUrgent = timeLeft < 60 * 60 * 1000;
+
+  useEffect(() => {
+    const id = setInterval(() => setTimeLeft(Math.max(0, deadline - Date.now())), 1000);
+    return () => clearInterval(id);
+  }, [deadline]);
+
+  const h = String(Math.floor(timeLeft / 3_600_000)).padStart(2, "0");
+  const m = String(Math.floor((timeLeft % 3_600_000) / 60_000)).padStart(2, "0");
+  const s = String(Math.floor((timeLeft % 60_000) / 1_000)).padStart(2, "0");
+
   return (
-    <header className="absolute inset-x-0 top-0 z-30">
-      <div className="container mx-auto flex max-w-6xl items-center justify-between px-6 py-5 rounded-b-2xl bg-white/80 backdrop-blur-md shadow-sm">
-        <div className="flex items-center gap-2.5 font-display text-lg font-semibold tracking-tight text-navy-deep">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full border border-gold/60 bg-cream">
-            <Cross className="h-4 w-4 text-gold" />
-          </div>
-          <span>A Copa da Fé</span>
+    <div className="absolute inset-x-0 top-0 z-30">
+      <div
+        className="flex h-16 items-center justify-center gap-6 px-6"
+        style={{
+          background: isUrgent
+            ? "linear-gradient(90deg, #7f1d1d 0%, #991b1b 50%, #7f1d1d 100%)"
+            : "linear-gradient(90deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%)",
+        }}
+      >
+        {/* Mensagem */}
+        <span className={`hidden text-[11px] font-semibold uppercase tracking-[0.22em] sm:block ${isUrgent ? "text-red-200" : "text-cream/60"}`}>
+          {isUrgent ? "Últimas horas" : "Oferta por tempo limitado"}
+        </span>
+
+        <span className={`h-3 w-px hidden sm:block ${isUrgent ? "bg-red-400/40" : "bg-gold/30"}`} />
+
+        {/* Dígitos */}
+        <div className="flex items-center gap-2">
+          {[{ val: h, label: "HRS" }, { val: m, label: "MIN" }, { val: s, label: "SEG" }].map(({ val, label }, i) => (
+            <span key={i} className="flex items-center gap-2">
+              <span className="flex flex-col items-center">
+                <span className="relative overflow-hidden h-[1.8rem] flex items-center">
+                  <AnimatePresence mode="popLayout">
+                    <motion.span
+                      key={val}
+                      initial={{ y: -20, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: 20, opacity: 0 }}
+                      transition={{ duration: 0.25, ease: "easeOut" }}
+                      className={`font-display text-2xl font-bold tabular-nums leading-none tracking-tight ${isUrgent ? "text-red-300" : "text-gold"}`}
+                    >
+                      {val}
+                    </motion.span>
+                  </AnimatePresence>
+                </span>
+                <span className={`text-[8px] font-bold uppercase tracking-widest ${isUrgent ? "text-red-400/70" : "text-cream/40"}`}>
+                  {label}
+                </span>
+              </span>
+              {i < 2 && (
+                <motion.span
+                  className={`mb-3 font-display text-lg font-light ${isUrgent ? "text-red-400" : "text-gold/60"}`}
+                  animate={{ opacity: [1, 0.3, 1] }}
+                  transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
+                >:</motion.span>
+              )}
+            </span>
+          ))}
         </div>
-        <a href="#oferta" className="hidden text-xs font-semibold uppercase tracking-wider text-navy-deep transition-colors hover:text-gold sm:inline-flex">
-          Garantir álbum →
+
+        <span className={`h-3 w-px hidden sm:block ${isUrgent ? "bg-red-400/40" : "bg-gold/30"}`} />
+
+        {/* CTA */}
+        <a
+          href="#oferta"
+          className={`hidden items-center gap-1.5 rounded-full px-4 py-1.5 text-[11px] font-bold uppercase tracking-wider transition sm:flex ${
+            isUrgent
+              ? "bg-red-500 text-white hover:bg-red-400"
+              : "bg-gold text-navy-deep hover:brightness-105"
+          }`}
+        >
+          Garantir agora <ArrowRight className="h-3 w-3" />
         </a>
       </div>
-    </header>
+    </div>
+  );
+}
+
+/* ---------------- Hero Image (tilt 3D) ---------------- */
+
+function HeroImage() {
+  const ref = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const rotateX = useTransform(y, [-0.5, 0.5], [10, -10]);
+  const rotateY = useTransform(x, [-0.5, 0.5], [-10, 10]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return;
+    x.set((e.clientX - rect.left) / rect.width - 0.5);
+    y.set((e.clientY - rect.top) / rect.height - 0.5);
+  };
+  const handleMouseLeave = () => {
+    x.set(0); y.set(0);
+  };
+
+  return (
+    <div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="relative mx-auto w-full max-w-xl"
+      style={{ perspective: 1000 }}
+    >
+      <div className="absolute -inset-8 -z-10 rounded-[3rem] bg-gradient-to-br from-gold/25 via-purple-elegant/15 to-transparent blur-3xl" />
+      <motion.div style={{ rotateX, rotateY, transformStyle: "preserve-3d" }} transition={{ type: "spring", stiffness: 200, damping: 25 }}>
+        <motion.img
+          src={heroAlbum}
+          alt="Álbum A Copa da Fé com figurinhas dos heróis bíblicos"
+          width={1536}
+          height={1152}
+          className="relative w-full rounded-2xl shadow-premium animate-float"
+          initial={{ opacity: 0, scale: 0.96, rotate: -2 }}
+          animate={{ opacity: 1, scale: 1, rotate: 0 }}
+          transition={{ duration: 1.1, delay: 0.3, ease }}
+        />
+
+        {/* Selo dourado */}
+        <motion.div
+          className="absolute -bottom-8 -right-4 z-20 animate-float select-none"
+          style={{ animationDelay: "0.5s" }}
+          initial={{ opacity: 0, scale: 0.7, rotate: 12 }}
+          animate={{ opacity: 1, scale: 1, rotate: 6 }}
+          transition={{ duration: 0.9, delay: 0.8, ease }}
+        >
+          <div className="absolute inset-0 rounded-full blur-xl opacity-70"
+            style={{ background: "radial-gradient(circle, #FFD700 0%, #B8860B 70%, transparent 100%)" }} />
+          <div className="relative h-36 w-36 rounded-full flex flex-col items-center justify-center overflow-visible"
+            style={{
+              background: "radial-gradient(circle at 38% 32%, #FFE94D, #D4900A 55%, #8B5A00 100%)",
+              boxShadow: "0 4px 24px rgba(180,120,0,0.55), inset 0 2px 6px rgba(255,255,200,0.35), inset 0 -3px 6px rgba(80,40,0,0.3)",
+            }}
+          >
+            <div className="absolute inset-2 rounded-full border-2 border-yellow-200/50 pointer-events-none" />
+            <div className="absolute inset-4 rounded-full border border-yellow-100/25 pointer-events-none" />
+            <div className="absolute -top-4 text-2xl drop-shadow-md leading-none">👑</div>
+            <div className="mt-4 flex gap-0.5 text-yellow-200 text-[9px]">{"★★★★★".split("").map((s, i) => <span key={i}>{s}</span>)}</div>
+            <div className="font-sans text-[2rem] font-black leading-none text-white" style={{ textShadow: "0 2px 4px rgba(0,0,0,0.4)" }}>100+</div>
+            <div className="text-center text-[8px] font-bold uppercase leading-tight text-yellow-100 px-3" style={{ textShadow: "0 1px 3px rgba(0,0,0,0.35)" }}>Figurinhas<br />para colecionar</div>
+            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-[115%]">
+              <div className="relative flex items-center justify-center py-1 px-2"
+                style={{ background: "linear-gradient(135deg, #5B21B6, #7C3AED)", clipPath: "polygon(4% 0%, 96% 0%, 100% 50%, 96% 100%, 4% 100%, 0% 50%)", boxShadow: "0 3px 8px rgba(0,0,0,0.35)" }}>
+                <span className="text-[9px] font-black uppercase tracking-[0.18em] text-white" style={{ textShadow: "0 1px 2px rgba(0,0,0,0.4)" }}>Exclusivas</span>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </motion.div>
+    </div>
   );
 }
 
@@ -234,7 +431,8 @@ function TopBar() {
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden pt-28 pb-20 sm:pt-36" style={{ background: "var(--gradient-hero)" }}>
+    <section className="relative overflow-hidden pt-20 pb-20 sm:pt-28" style={{ background: "var(--gradient-hero)" }}>
+      <FloatingParticles />
       <TopBar />
 
       <div className="container relative mx-auto max-w-6xl px-6">
@@ -264,12 +462,6 @@ function Hero() {
               </p>
             </Reveal>
 
-            <Reveal delay={0.22}>
-              <div className="mt-7">
-                <CountdownTimer />
-              </div>
-            </Reveal>
-
             <Reveal delay={0.30}>
               <div className="mt-7 flex flex-col items-start gap-5">
                 <PrimaryCTA>Quero começar minha coleção</PrimaryCTA>
@@ -284,80 +476,7 @@ function Hero() {
 
           {/* Right: image */}
           <Reveal delay={0.2}>
-            <div className="relative mx-auto w-full max-w-xl">
-              <div className="absolute -inset-8 -z-10 rounded-[3rem] bg-gradient-to-br from-gold/25 via-purple-elegant/15 to-transparent blur-3xl" />
-              <div className="absolute -top-4 -left-4 h-20 w-20 rounded-full bg-purple-elegant/20 blur-xl" />
-              <motion.img
-                src={heroAlbum}
-                alt="Álbum A Copa da Fé com figurinhas dos heróis bíblicos"
-                width={1536}
-                height={1152}
-                className="relative w-full rounded-2xl shadow-premium animate-float"
-                initial={{ opacity: 0, scale: 0.96, rotate: -2 }}
-                animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                transition={{ duration: 1.1, delay: 0.3, ease }}
-              />
-
-              {/* Selo dourado — flutua junto com a imagem */}
-              <motion.div
-                className="absolute -bottom-8 -right-4 z-20 animate-float select-none"
-                style={{ animationDelay: "0.5s" }}
-                initial={{ opacity: 0, scale: 0.7, rotate: 12 }}
-                animate={{ opacity: 1, scale: 1, rotate: 6 }}
-                transition={{ duration: 0.9, delay: 0.8, ease }}
-              >
-                {/* Glow externo */}
-                <div className="absolute inset-0 rounded-full blur-xl opacity-70"
-                  style={{ background: "radial-gradient(circle, #FFD700 0%, #B8860B 70%, transparent 100%)" }} />
-
-                {/* Corpo do selo */}
-                <div className="relative h-36 w-36 rounded-full flex flex-col items-center justify-center overflow-visible"
-                  style={{
-                    background: "radial-gradient(circle at 38% 32%, #FFE94D, #D4900A 55%, #8B5A00 100%)",
-                    boxShadow: "0 4px 24px rgba(180,120,0,0.55), inset 0 2px 6px rgba(255,255,200,0.35), inset 0 -3px 6px rgba(80,40,0,0.3)",
-                  }}
-                >
-                  {/* Anel interno */}
-                  <div className="absolute inset-2 rounded-full border-2 border-yellow-200/50 pointer-events-none" />
-                  <div className="absolute inset-4 rounded-full border border-yellow-100/25 pointer-events-none" />
-
-                  {/* Coroa */}
-                  <div className="absolute -top-4 text-2xl drop-shadow-md leading-none">👑</div>
-
-                  {/* Estrelas */}
-                  <div className="mt-4 flex gap-0.5 text-yellow-200 text-[9px]">
-                    {"★★★★★".split("").map((s, i) => <span key={i}>{s}</span>)}
-                  </div>
-
-                  {/* 100+ */}
-                  <div className="font-sans text-[2rem] font-black leading-none text-white"
-                    style={{ textShadow: "0 2px 4px rgba(0,0,0,0.4)" }}>
-                    100+
-                  </div>
-
-                  {/* Figurinhas para colecionar */}
-                  <div className="text-center text-[8px] font-bold uppercase leading-tight text-yellow-100 px-3"
-                    style={{ textShadow: "0 1px 3px rgba(0,0,0,0.35)" }}>
-                    Figurinhas<br />para colecionar
-                  </div>
-
-                  {/* Faixa roxa — EXCLUSIVAS */}
-                  <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-[115%]">
-                    <div className="relative flex items-center justify-center py-1 px-2"
-                      style={{
-                        background: "linear-gradient(135deg, #5B21B6, #7C3AED)",
-                        clipPath: "polygon(4% 0%, 96% 0%, 100% 50%, 96% 100%, 4% 100%, 0% 50%)",
-                        boxShadow: "0 3px 8px rgba(0,0,0,0.35)",
-                      }}>
-                      <span className="text-[9px] font-black uppercase tracking-[0.18em] text-white"
-                        style={{ textShadow: "0 1px 2px rgba(0,0,0,0.4)" }}>
-                        Exclusivas
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
+            <HeroImage />
           </Reveal>
         </div>
 
@@ -396,9 +515,13 @@ function Stats() {
         <div className="grid grid-cols-2 gap-y-10 divide-navy-deep/10 sm:grid-cols-4 sm:divide-x">
           {stats.map((s, i) => (
             <Reveal key={i} delay={i * 0.08} className="px-4 text-center">
-              <div className="font-display text-5xl font-light text-gold sm:text-6xl">
+              <motion.div
+                className="font-display text-5xl font-light text-gold sm:text-6xl"
+                whileHover={{ scale: 1.12, textShadow: "0 0 30px oklch(0.78 0.14 80 / 0.6)" }}
+                transition={{ type: "spring", stiffness: 300, damping: 18 }}
+              >
                 {s.isInfinity ? "∞" : <><Counter to={s.value} />{s.suffix}</>}
-              </div>
+              </motion.div>
               <div className="mt-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-navy-deep/60">{s.label}</div>
             </Reveal>
           ))}
@@ -435,15 +558,27 @@ function WhatIsIt() {
         <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-navy-deep/10 bg-navy-deep/10 sm:grid-cols-2 lg:grid-cols-4">
           {cards.map((c, i) => (
             <Reveal key={i} delay={i * 0.06}>
-              <div className="group relative h-full bg-cream p-8 transition-all duration-500 hover:bg-white">
+              <motion.div
+                className="group relative h-full bg-cream p-8"
+                whileHover={{ backgroundColor: "#ffffff", y: -4, boxShadow: "0 20px 40px -10px oklch(0.52 0.20 290 / 0.12)" }}
+                transition={{ type: "spring", stiffness: 300, damping: 22 }}
+              >
                 <div className="flex items-center justify-between">
-                  <c.icon className="h-7 w-7 text-gold transition-transform duration-500 group-hover:scale-110" strokeWidth={1.5} />
+                  <motion.div whileHover={{ rotate: 15, scale: 1.2 }} transition={{ type: "spring", stiffness: 400, damping: 12 }}>
+                    <c.icon className="h-7 w-7 text-gold" strokeWidth={1.5} />
+                  </motion.div>
                   <span className="font-display text-xs text-navy-deep/30">0{i + 1}</span>
                 </div>
                 <h3 className="mt-10 font-display text-xl font-semibold text-navy-deep">{c.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-navy-deep/65">{c.text}</p>
-                <span className="absolute inset-x-0 bottom-0 h-px scale-x-0 bg-gold transition-transform duration-500 group-hover:scale-x-100" />
-              </div>
+                <motion.span
+                  className="absolute inset-x-0 bottom-0 h-px bg-gold"
+                  initial={{ scaleX: 0 }}
+                  whileHover={{ scaleX: 1 }}
+                  style={{ transformOrigin: "left" }}
+                  transition={{ duration: 0.4 }}
+                />
+              </motion.div>
             </Reveal>
           ))}
         </div>
@@ -703,14 +838,22 @@ function Rarity() {
         <div className="mt-14 grid gap-4 sm:grid-cols-4">
           {tiers.map((t, i) => (
             <Reveal key={i} delay={i * 0.06}>
-              <div className="h-full rounded-2xl border border-navy-deep/10 bg-white p-6 shadow-sm transition-all hover:shadow-card-premium">
+              <motion.div
+                className="h-full rounded-2xl border border-navy-deep/10 bg-white p-6 shadow-sm"
+                whileHover={{ y: -6, boxShadow: "0 24px 48px -12px oklch(0.52 0.20 290 / 0.18)", borderColor: "oklch(0.78 0.14 80 / 0.4)" }}
+                transition={{ type: "spring", stiffness: 300, damping: 22 }}
+              >
                 <div className="flex items-center gap-2">
-                  <span className={`h-2 w-2 rounded-full ${t.dot}`} />
+                  <motion.span
+                    className={`h-2 w-2 rounded-full ${t.dot}`}
+                    animate={{ scale: [1, 1.4, 1] }}
+                    transition={{ duration: 2, repeat: Infinity, delay: i * 0.4 }}
+                  />
                   <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-navy-deep/50">Nível 0{i + 1}</span>
                 </div>
                 <div className="mt-5 font-display text-2xl font-semibold text-navy-deep">{t.name}</div>
                 <p className="mt-2 text-sm text-navy-deep/60">{t.text}</p>
-              </div>
+              </motion.div>
             </Reveal>
           ))}
         </div>
@@ -765,7 +908,11 @@ function Testimonials() {
         <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
           {items.map((t, i) => (
             <Reveal key={i} delay={i * 0.08}>
-              <figure className="flex flex-col overflow-hidden rounded-2xl bg-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl h-full">
+              <motion.figure
+                className="flex flex-col overflow-hidden rounded-2xl bg-white shadow-md h-full"
+                whileHover={{ y: -8, boxShadow: "0 30px 60px -15px oklch(0.52 0.20 290 / 0.22)" }}
+                transition={{ type: "spring", stiffness: 280, damping: 20 }}
+              >
                 {/* Foto banner */}
                 <div className="relative h-52 overflow-hidden bg-navy-deep/10">
                   <img
@@ -805,7 +952,7 @@ function Testimonials() {
                     </div>
                   </figcaption>
                 </div>
-              </figure>
+              </motion.figure>
             </Reveal>
           ))}
         </div>
@@ -955,7 +1102,9 @@ function Offer() {
                   <p className="mt-1 text-xs text-navy-deep/45">pagamento único</p>
                 </div>
                 <a
-                  href="#oferta"
+                  href="https://pay.cakto.com.br/yjoeg5o_914629"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="mt-6 flex w-full items-center justify-center gap-2 rounded-full border-2 border-navy-deep py-3.5 text-sm font-bold uppercase tracking-wider text-navy-deep transition hover:bg-navy-deep hover:text-cream"
                 >
                   Quero o Básico
@@ -1000,7 +1149,7 @@ function Offer() {
                   </div>
                   <p className="mt-1 text-xs text-navy-deep/50">ou 3× de R$ 13,30 sem juros</p>
                 </div>
-                <PrimaryCTA className="mt-6 w-full">Quero o Completo</PrimaryCTA>
+                <PrimaryCTA className="mt-6 w-full" href="https://pay.cakto.com.br/33tiv2w">Quero o Completo</PrimaryCTA>
                 <div className="mt-5">
                   <TrustRow />
                 </div>
@@ -1158,6 +1307,7 @@ function Footer() {
 function SalesPage() {
   return (
     <main className="bg-background text-foreground">
+      <ScrollProgressBar />
       <Hero />
       <Stats />
       <WhatIsIt />
