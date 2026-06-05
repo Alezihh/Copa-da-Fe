@@ -181,16 +181,15 @@ function Hero() {
               <h1 className="mt-7 font-display text-[2.6rem] font-semibold leading-[1.02] tracking-tight text-navy-deep sm:text-6xl lg:text-[4.2rem]">
                 A Copa da Fé
               </h1>
-              <p className="mt-4 font-display text-xl font-medium leading-snug text-navy-deep/80 sm:text-2xl lg:text-[1.65rem]">
-                O Álbum de Figurinhas Cristão que Faz<br className="hidden sm:block" />
-                Crianças Trocarem as Telas pelas<br className="hidden sm:block" />
-                <em className="text-gold">Histórias da Bíblia</em>
+              <p className="mt-4 font-display text-xl font-medium leading-snug text-navy-deep/80 sm:text-2xl lg:text-[1.75rem]">
+                Transforme o Tempo de Tela em<br className="hidden sm:block" />
+                <em className="text-gold">Tempo com Deus.</em>
               </p>
             </Reveal>
 
             <Reveal delay={0.16}>
               <p className="mt-7 max-w-xl text-lg leading-relaxed text-navy-deep/70">
-                Mais de 150 figurinhas dos maiores heróis da fé para imprimir, colecionar e aprender em família.
+                Mais de 150 figurinhas dos grandes heróis da Bíblia para imprimir, colecionar e fortalecer a fé em família.
               </p>
             </Reveal>
 
