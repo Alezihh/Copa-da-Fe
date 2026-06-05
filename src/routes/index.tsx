@@ -44,10 +44,14 @@ import figJoaoBatista from "@/assets/figurinhas/fig_joao_batista.png";
 import figJoao        from "@/assets/figurinhas/fig_joao.png";
 import figJudas       from "@/assets/figurinhas/fig_judas.png";
 
-import photoMariana  from "@/assets/depoimentos/mariana.jpg";
-import photoRoberto  from "@/assets/depoimentos/roberto.jpg";
-import photoCleide   from "@/assets/depoimentos/cleide.jpg";
-import photoPatricia from "@/assets/depoimentos/patricia.jpg";
+import photoMariana    from "@/assets/depoimentos/mariana.jpg";
+import photoRoberto    from "@/assets/depoimentos/roberto.jpg";
+import photoCleide     from "@/assets/depoimentos/cleide.jpg";
+import photoPatricia   from "@/assets/depoimentos/patricia.jpg";
+import bannerMariana   from "@/assets/depoimentos/banner_mariana.jpg";
+import bannerRoberto   from "@/assets/depoimentos/banner_roberto.jpg";
+import bannerCleide    from "@/assets/depoimentos/banner_cleide.jpg";
+import bannerPatricia  from "@/assets/depoimentos/banner_patricia.jpg";
 
 export const Route = createFileRoute("/")({
   component: SalesPage,
@@ -717,51 +721,108 @@ function Rarity() {
 
 /* ---------------- Testimonials ---------------- */
 
+const WA_ICON = (
+  <svg viewBox="0 0 24 24" className="h-6 w-6 fill-[#25D366]" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+);
+
 function Testimonials() {
   const items = [
-    { photo: photoMariana,  name: "Mariana S.",      role: "Mãe de 2 — São Paulo",            text: "Meu filho de 7 anos pede para abrir o álbum todos os dias antes de dormir. Já aprendeu mais sobre a Bíblia em um mês do que em um ano de escola dominical." },
-    { photo: photoRoberto,  name: "Roberto e Júlia", role: "Família — Curitiba",               text: "Virou nosso momento sagrado em família. Os meninos disputam quem cola a próxima figurinha. Investimento que vale ouro." },
-    { photo: photoCleide,   name: "Dona Cleide",     role: "Avó de 4 netos",                   text: "Comprei para todos os meus netos. Não tem preço ver as crianças querendo conhecer Davi, Moisés e Ester por vontade própria." },
-    { photo: photoPatricia, name: "Patrícia M.",     role: "Mãe cristã — Belo Horizonte",      text: "A criatividade é incrível. Meu filho de 9 anos largou o tablet para colecionar figurinhas dos heróis da fé. Recomendo de olhos fechados." },
+    { banner: bannerMariana,  photo: photoMariana,  name: "Mariana S.",      role: "Mãe de 2 · São Paulo - SP",        city: "SÃO PAULO - SP", text: "\"Meu filho de 7 anos pede para abrir o álbum todos os dias antes de dormir. Já aprendeu mais sobre a Bíblia em um mês do que em um ano de escola dominical.\"" },
+    { banner: bannerRoberto,  photo: photoRoberto,  name: "Roberto e Júlia", role: "Família · Curitiba - PR",           city: "CURITIBA - PR",   text: "\"Virou nosso momento sagrado em família. Os meninos disputam quem cola a próxima figurinha. Investimento que vale ouro.\"" },
+    { banner: bannerCleide,   photo: photoCleide,   name: "Dona Cleide",     role: "Avó de 4 netos",                   city: "BELO HORIZONTE - MG", text: "\"Comprei para todos os meus netos. Não tem preço ver as crianças querendo conhecer Davi, Moisés e Ester por vontade própria.\"" },
+    { banner: bannerPatricia, photo: photoPatricia, name: "Patrícia M.",     role: "Mãe cristã · Goiânia - GO",        city: "GOIÂNIA - GO",    text: "\"A criatividade é incrível. Meu filho de 9 anos largou o tablet para colecionar figurinhas dos heróis da fé. Recomendo de olhos fechados.\"" },
   ];
+
+  const stats = [
+    { icon: "👨‍👩‍👧‍👦", value: "+5.000", label: "Famílias Felizes" },
+    { icon: "✅", value: "4,9 / 5", label: "Avaliação Média" },
+    { icon: "😊", value: "98%", label: "Recomendam" },
+    { icon: "❤️", value: "100%", label: "Aprovação das Crianças" },
+  ];
+
   return (
-    <section className="bg-cream py-28">
-      <div className="container mx-auto max-w-6xl px-6">
-        <Reveal className="max-w-3xl">
-          <SectionNumber n="05" label="Prova Social" />
-          <h2 className="mt-6 font-display text-4xl font-semibold leading-[1.05] tracking-tight text-navy-deep sm:text-5xl">
-            Famílias que estão <em className="text-gold">vivendo essa experiência.</em>
+    <section className="py-28" style={{ background: "oklch(0.97 0.015 290)" }}>
+      <div className="container mx-auto max-w-7xl px-6">
+
+        {/* Header */}
+        <Reveal className="text-center mb-14">
+          <div className="inline-flex items-center gap-2 rounded-full bg-navy-deep px-5 py-2 mb-6">
+            <Star className="h-4 w-4 fill-gold text-gold" />
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-cream">Prova Social</span>
+          </div>
+          <h2 className="font-display text-4xl font-bold leading-tight text-navy-deep sm:text-5xl lg:text-6xl">
+            Famílias que já estão<br />
+            <em className="text-gold not-italic">vivendo essa experiência</em>
           </h2>
+          <p className="mt-4 text-navy-deep/60 text-lg">
+            Veja o que pais e avós estão dizendo sobre A Copa da Fé
+          </p>
         </Reveal>
 
-        <div className="mt-16 grid gap-6 md:grid-cols-2">
+        {/* Cards grid */}
+        <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
           {items.map((t, i) => (
             <Reveal key={i} delay={i * 0.08}>
-              <figure className="h-full rounded-2xl border border-navy-deep/10 bg-white p-8 transition-all hover:border-gold/40 hover:shadow-card-premium">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1 text-gold">
-                    {[...Array(5)].map((_, j) => <Star key={j} className="h-4 w-4 fill-current" />)}
-                  </div>
-                  <span className="font-display text-xs text-navy-deep/30">0{i + 1}</span>
-                </div>
-                <blockquote className="mt-6 font-display text-lg leading-relaxed text-navy-deep">
-                  "{t.text}"
-                </blockquote>
-                <figcaption className="mt-8 flex items-center gap-4 border-t border-navy-deep/10 pt-5">
+              <figure className="flex flex-col overflow-hidden rounded-2xl bg-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl h-full">
+                {/* Foto banner */}
+                <div className="relative h-52 overflow-hidden bg-navy-deep/10">
                   <img
-                    src={t.photo}
+                    src={t.banner}
                     alt={t.name}
-                    className="h-12 w-12 rounded-full object-cover object-center ring-2 ring-gold/30 shrink-0"
+                    className="h-full w-full object-cover object-[center_20%] transition-transform duration-500 hover:scale-105"
                   />
-                  <div>
-                    <div className="font-semibold text-navy-deep">{t.name}</div>
-                    <div className="text-xs uppercase tracking-wider text-navy-deep/50">{t.role}</div>
+                </div>
+
+                {/* Conteúdo */}
+                <div className="flex flex-1 flex-col p-5">
+                  {/* Estrelas + WhatsApp */}
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex gap-0.5">
+                      {[...Array(5)].map((_, j) => (
+                        <Star key={j} className="h-4 w-4 fill-gold text-gold" />
+                      ))}
+                    </div>
+                    {WA_ICON}
                   </div>
-                </figcaption>
+
+                  {/* Quote */}
+                  <blockquote className="text-sm leading-relaxed text-navy-deep/80 flex-1">
+                    {t.text}
+                  </blockquote>
+
+                  {/* Author */}
+                  <figcaption className="mt-4 flex items-center gap-3 border-t border-navy-deep/8 pt-4">
+                    <img
+                      src={t.photo}
+                      alt={t.name}
+                      className="h-11 w-11 rounded-full object-cover object-center ring-2 ring-gold/30 shrink-0"
+                    />
+                    <div>
+                      <div className="text-sm font-bold text-navy-deep">{t.name}</div>
+                      <div className="text-[10px] font-semibold uppercase tracking-wider text-navy-deep/45">{t.city}</div>
+                    </div>
+                  </figcaption>
+                </div>
               </figure>
             </Reveal>
           ))}
         </div>
+
+        {/* Stats bar */}
+        <Reveal delay={0.2} className="mt-14">
+          <div className="grid grid-cols-2 gap-4 rounded-2xl bg-white p-6 shadow-sm sm:grid-cols-4">
+            {stats.map((s, i) => (
+              <div key={i} className="flex flex-col items-center gap-1 text-center">
+                <span className="text-2xl">{s.icon}</span>
+                <span className="font-display text-2xl font-bold text-navy-deep">{s.value}</span>
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-navy-deep/50">{s.label}</span>
+              </div>
+            ))}
+          </div>
+        </Reveal>
+
       </div>
     </section>
   );
