@@ -31,7 +31,7 @@ import {
 
 import heroAlbum from "@/assets/copa-da-fe-nobg.png";
 import childAlbum from "@/assets/familia-album.png";
-import albumPages from "@/assets/album-pages.jpg";
+import albumPages from "@/assets/album-open.jpg";
 import rarityCards from "@/assets/rarity-cards.jpg";
 
 import figJesus      from "@/assets/figurinhas/jesus.png";
