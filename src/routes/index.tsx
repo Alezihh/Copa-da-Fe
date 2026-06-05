@@ -256,7 +256,7 @@ function Hero() {
 
             <Reveal delay={0.16}>
               <p className="mt-7 max-w-xl text-lg leading-relaxed text-navy-deep/70">
-                Mais de 150 figurinhas dos grandes heróis da Bíblia para imprimir, colecionar e fortalecer a fé em família.
+                Mais de 100 figurinhas dos grandes heróis da Bíblia para imprimir, colecionar e fortalecer a fé em família.
               </p>
             </Reveal>
 
@@ -325,10 +325,10 @@ function Hero() {
                     {"★★★★★".split("").map((s, i) => <span key={i}>{s}</span>)}
                   </div>
 
-                  {/* 150+ */}
+                  {/* 100+ */}
                   <div className="font-sans text-[2rem] font-black leading-none text-white"
                     style={{ textShadow: "0 2px 4px rgba(0,0,0,0.4)" }}>
-                    150+
+                    100+
                   </div>
 
                   {/* Figurinhas para colecionar */}
@@ -381,7 +381,7 @@ function Hero() {
 
 function Stats() {
   const stats = [
-    { value: 150, suffix: "+", label: "Figurinhas Exclusivas" },
+    { value: 100, suffix: "+", label: "Figurinhas Exclusivas" },
     { value: 8, suffix: "", label: "Categorias Bíblicas" },
     { value: 20, suffix: "+", label: "Personagens Históricos" },
     { value: 0, suffix: "∞", label: "Aprendizados para a Vida", isInfinity: true },
@@ -772,7 +772,7 @@ function Testimonials() {
 function WhatYouGet() {
   const items = [
     "Álbum completo para impressão",
-    "Mais de 150 figurinhas",
+    "Mais de 100 figurinhas",
     "Categorias exclusivas",
     "Certificado Campeão da Fé",
     "Quiz Bíblico Infantil",
@@ -847,7 +847,7 @@ function Offer() {
   ];
   const premium = [
     "Álbum completo para impressão",
-    "Mais de 150 figurinhas exclusivas",
+    "Mais de 100 figurinhas exclusivas",
     "Todas as 8 categorias bíblicas",
     "Certificado Campeão da Fé",
     "Quiz Bíblico Infantil",
@@ -992,7 +992,7 @@ function FAQ() {
     { q: "Como recebo o material?", a: "Imediatamente após a confirmação do pagamento, você recebe o acesso por e-mail com todos os arquivos para download." },
     { q: "Posso imprimir quantas vezes quiser?", a: "Sim! O acesso é para uso da sua família. Pode imprimir quantas vezes precisar, para quantos filhos e netos quiser." },
     { q: "Qual a idade recomendada?", a: "Indicado a partir dos 4 anos, com supervisão dos pais. Crianças de 6 a 12 anos costumam aproveitar o máximo da experiência." },
-    { q: "Preciso comprar figurinhas separadamente?", a: "Não. Todas as 150+ figurinhas já estão inclusas no material para você imprimir e colar." },
+    { q: "Preciso comprar figurinhas separadamente?", a: "Não. Todas as 100+ figurinhas já estão inclusas no material para você imprimir e colar." },
     { q: "Posso acessar pelo celular?", a: "Sim, o acesso funciona em qualquer dispositivo: celular, tablet, computador." },
     { q: "O acesso é vitalício?", a: "Sim. Pagamento único, acesso para sempre, incluindo atualizações futuras." },
   ];
