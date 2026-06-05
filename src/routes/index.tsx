@@ -43,6 +43,10 @@ import figDavi        from "@/assets/figurinhas/fig_davi.png";
 import figJoaoBatista from "@/assets/figurinhas/fig_joao_batista.png";
 import figJoao        from "@/assets/figurinhas/fig_joao.png";
 import figJudas       from "@/assets/figurinhas/fig_judas.png";
+import figEster       from "@/assets/figurinhas/ester.png";
+import figPedro       from "@/assets/figurinhas/pedro.png";
+import figElias       from "@/assets/figurinhas/elias.png";
+import figDaniel      from "@/assets/figurinhas/daniel.png";
 
 import photoMariana    from "@/assets/depoimentos/mariana.jpg";
 import photoRoberto    from "@/assets/depoimentos/roberto.jpg";
@@ -662,14 +666,14 @@ function Transformation() {
 
 function Team() {
   const categories = [
-    { icon: Crown, name: "Reis" },
-    { icon: Cross, name: "Apóstolos" },
-    { icon: Flame, name: "Profetas" },
-    { icon: User, name: "Mulheres da Bíblia" },
-    { icon: Shield, name: "Heróis da Fé" },
-    { icon: ScrollText, name: "Antigo Testamento" },
-    { icon: Sparkles, name: "Novo Testamento" },
-    { icon: Trophy, name: "Figurinhas Especiais" },
+    { img: figDavi,        name: "Reis",                 char: "Davi",        special: false },
+    { img: figJoao,        name: "Apóstolos",            char: "João",        special: false },
+    { img: figElias,       name: "Profetas",             char: "Elias",       special: false },
+    { img: figEster,       name: "Mulheres da Bíblia",   char: "Ester",       special: false },
+    { img: figAbraao,      name: "Heróis da Fé",         char: "Abraão",      special: false },
+    { img: figAdao,        name: "Antigo Testamento",    char: "Adão",        special: false },
+    { img: figJoaoBatista, name: "Novo Testamento",      char: "João Batista",special: false },
+    { img: figJesus,       name: "Figurinhas Especiais", char: "Jesus",       special: true  },
   ];
   return (
     <section className="py-28">
@@ -689,13 +693,36 @@ function Team() {
         <div className="mt-16 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {categories.map((c, i) => (
             <Reveal key={i} delay={i * 0.04}>
-              <div className="group relative aspect-square overflow-hidden rounded-xl border border-navy-deep/10 bg-cream transition-all duration-500 hover:border-gold/60 hover:bg-white">
-                <div className="flex h-full flex-col items-center justify-center gap-4 p-5 text-center">
-                  <c.icon className="h-7 w-7 text-navy-deep transition-all duration-500 group-hover:scale-110 group-hover:text-gold" strokeWidth={1.4} />
-                  <div className="font-display text-sm font-semibold text-navy-deep">{c.name}</div>
+              <motion.div
+                className={`group relative overflow-hidden rounded-2xl border bg-cream ${c.special ? "border-gold/50" : "border-navy-deep/10"}`}
+                whileHover={{ y: -6, boxShadow: c.special ? "0 20px 40px -10px oklch(0.78 0.14 80 / 0.4)" : "0 20px 40px -10px oklch(0.52 0.20 290 / 0.15)" }}
+                transition={{ type: "spring", stiffness: 300, damping: 22 }}
+              >
+                {c.special && (
+                  <div className="absolute inset-0 -z-10 bg-gradient-to-b from-gold/10 to-transparent" />
+                )}
+                {/* Imagem da figurinha */}
+                <div className="relative w-full overflow-hidden" style={{ aspectRatio: "3/4" }}>
+                  <img
+                    src={c.img}
+                    alt={c.char}
+                    className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  />
+                  {/* Número */}
+                  <span className="absolute left-2 top-2 rounded-full bg-black/30 px-2 py-0.5 font-display text-[9px] uppercase tracking-wider text-white backdrop-blur-sm">
+                    0{i + 1}
+                  </span>
+                  {/* Categoria no topo */}
+                  {c.special && (
+                    <span className="absolute right-2 top-2 rounded-full bg-gold px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-navy-deep">★ Especial</span>
+                  )}
                 </div>
-                <span className="absolute left-3 top-3 font-display text-[10px] uppercase tracking-wider text-navy-deep/30">0{i + 1}</span>
-              </div>
+                {/* Nome */}
+                <div className="p-3 text-center">
+                  <p className={`text-[9px] font-semibold uppercase tracking-[0.18em] ${c.special ? "text-gold" : "text-navy-deep/40"}`}>{c.name}</p>
+                  <p className="mt-0.5 font-display text-sm font-semibold text-navy-deep">{c.char}</p>
+                </div>
+              </motion.div>
             </Reveal>
           ))}
         </div>
