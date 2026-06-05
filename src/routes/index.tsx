@@ -727,44 +727,6 @@ function Team() {
           ))}
         </div>
 
-        {/* Figurinhas dos craques */}
-        <Reveal delay={0.18} className="mt-16">
-          <p className="mb-6 text-center text-[11px] font-bold uppercase tracking-[0.24em] text-navy-deep/40">
-            Alguns dos craques da coleção
-          </p>
-          <div className="flex items-end justify-center gap-4 sm:gap-6">
-            {[
-              { img: figJesus,       name: "Jesus",        category: "Messias",     special: true  },
-              { img: figDavi,        name: "Davi",         category: "Reis",        special: false },
-              { img: figMoises,      name: "Moisés",       category: "Líderes",     special: false },
-              { img: figAbraao,      name: "Abraão",       category: "Patriarcas",  special: false },
-              { img: figJoaoBatista, name: "João Batista", category: "Precursores", special: false },
-            ].map((fig, i) => (
-              <motion.div
-                key={fig.name}
-                className="relative flex flex-col items-center gap-2"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.6, ease }}
-                whileHover={{ y: -10, scale: 1.06 }}
-              >
-                {fig.special && (
-                  <div className="absolute -inset-3 -z-10 rounded-3xl bg-gradient-to-b from-gold/40 to-transparent blur-xl" />
-                )}
-                <div
-                  className={`overflow-hidden rounded-2xl shadow-lg ring-1 ${fig.special ? "ring-gold/60" : "ring-navy-deep/10"}`}
-                  style={{ width: 110, height: 153 }}
-                >
-                  <img src={fig.img} alt={`Figurinha ${fig.name}`} className="h-full w-full object-cover object-center" draggable={false} />
-                </div>
-                <p className="text-[9px] font-semibold uppercase tracking-widest text-navy-deep/40 leading-none">{fig.category}</p>
-                <p className="text-xs font-bold text-navy-deep leading-tight">{fig.name}</p>
-              </motion.div>
-            ))}
-          </div>
-        </Reveal>
-
         <Reveal delay={0.15} className="mt-20">
           <figure>
             <img
