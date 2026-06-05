@@ -668,7 +668,7 @@ function Team() {
   const categories = [
     { img: figDavi,        name: "Reis",                 char: "Davi",        special: false },
     { img: figJoao,        name: "Apóstolos",            char: "João",        special: false },
-    { img: figElias,       name: "Profetas",             char: "Elias",       special: false },
+    { img: figMoises,      name: "Profetas",             char: "Moisés",      special: false },
     { img: figEster,       name: "Mulheres da Bíblia",   char: "Ester",       special: false },
     { img: figAbraao,      name: "Heróis da Fé",         char: "Abraão",      special: false },
     { img: figAdao,        name: "Antigo Testamento",    char: "Adão",        special: false },
