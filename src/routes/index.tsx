@@ -46,24 +46,6 @@ import figMariaNazare from "@/assets/figurinhas/maria_nazare.png";
 import figEster      from "@/assets/figurinhas/ester.png";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "A Copa da Fé — O Álbum de Figurinhas Cristão dos Heróis da Bíblia" },
-      {
-        name: "description",
-        content:
-          "O álbum colecionável que transforma os maiores personagens bíblicos em uma experiência divertida, educativa e inesquecível para sua família. Acesso imediato.",
-      },
-      { property: "og:title", content: "A Copa da Fé — O Álbum dos Heróis da Bíblia" },
-      {
-        property: "og:description",
-        content:
-          "Inspirado na Copa do Mundo, um álbum único para ensinar fé, valores e a Palavra através de figurinhas colecionáveis.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
   component: SalesPage,
 });
 
