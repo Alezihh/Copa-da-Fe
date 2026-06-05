@@ -44,6 +44,11 @@ import figJoaoBatista from "@/assets/figurinhas/fig_joao_batista.png";
 import figJoao        from "@/assets/figurinhas/fig_joao.png";
 import figJudas       from "@/assets/figurinhas/fig_judas.png";
 
+import photoMariana  from "@/assets/depoimentos/mariana.jpg";
+import photoRoberto  from "@/assets/depoimentos/roberto.jpg";
+import photoCleide   from "@/assets/depoimentos/cleide.jpg";
+import photoPatricia from "@/assets/depoimentos/patricia.jpg";
+
 export const Route = createFileRoute("/")({
   component: SalesPage,
 });
@@ -583,10 +588,10 @@ function Rarity() {
 
 function Testimonials() {
   const items = [
-    { name: "Mariana S.", role: "Mãe de 2 — São Paulo", text: "Meu filho de 7 anos pede para abrir o álbum todos os dias antes de dormir. Já aprendeu mais sobre a Bíblia em um mês do que em um ano de escola dominical." },
-    { name: "Roberto e Júlia", role: "Família — Curitiba", text: "Virou nosso momento sagrado em família. Os meninos disputam quem cola a próxima figurinha. Investimento que vale ouro." },
-    { name: "Dona Cleide", role: "Avó de 4 netos", text: "Comprei para todos os meus netos. Não tem preço ver as crianças querendo conhecer Davi, Moisés e Ester por vontade própria." },
-    { name: "Patrícia M.", role: "Mãe cristã — Belo Horizonte", text: "A criatividade é incrível. Meu filho de 9 anos largou o tablet para colecionar figurinhas dos heróis da fé. Recomendo de olhos fechados." },
+    { photo: photoMariana,  name: "Mariana S.",      role: "Mãe de 2 — São Paulo",            text: "Meu filho de 7 anos pede para abrir o álbum todos os dias antes de dormir. Já aprendeu mais sobre a Bíblia em um mês do que em um ano de escola dominical." },
+    { photo: photoRoberto,  name: "Roberto e Júlia", role: "Família — Curitiba",               text: "Virou nosso momento sagrado em família. Os meninos disputam quem cola a próxima figurinha. Investimento que vale ouro." },
+    { photo: photoCleide,   name: "Dona Cleide",     role: "Avó de 4 netos",                   text: "Comprei para todos os meus netos. Não tem preço ver as crianças querendo conhecer Davi, Moisés e Ester por vontade própria." },
+    { photo: photoPatricia, name: "Patrícia M.",     role: "Mãe cristã — Belo Horizonte",      text: "A criatividade é incrível. Meu filho de 9 anos largou o tablet para colecionar figurinhas dos heróis da fé. Recomendo de olhos fechados." },
   ];
   return (
     <section className="bg-cream py-28">
@@ -612,9 +617,11 @@ function Testimonials() {
                   "{t.text}"
                 </blockquote>
                 <figcaption className="mt-8 flex items-center gap-4 border-t border-navy-deep/10 pt-5">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-navy-deep font-display text-base font-semibold text-gold">
-                    {t.name.charAt(0)}
-                  </div>
+                  <img
+                    src={t.photo}
+                    alt={t.name}
+                    className="h-12 w-12 rounded-full object-cover object-center ring-2 ring-gold/30 shrink-0"
+                  />
                   <div>
                     <div className="font-semibold text-navy-deep">{t.name}</div>
                     <div className="text-xs uppercase tracking-wider text-navy-deep/50">{t.role}</div>
