@@ -282,7 +282,6 @@ function Hero() {
           <Reveal delay={0.2}>
             <div className="relative mx-auto w-full max-w-xl">
               <div className="absolute -inset-8 -z-10 rounded-[3rem] bg-gradient-to-br from-gold/25 via-purple-elegant/15 to-transparent blur-3xl" />
-              <div className="absolute -bottom-6 -right-6 h-32 w-32 rounded-full border border-gold/40" />
               <div className="absolute -top-4 -left-4 h-20 w-20 rounded-full bg-purple-elegant/20 blur-xl" />
               <motion.img
                 src={heroAlbum}
@@ -294,6 +293,66 @@ function Hero() {
                 animate={{ opacity: 1, scale: 1, rotate: 0 }}
                 transition={{ duration: 1.1, delay: 0.3, ease }}
               />
+
+              {/* Selo dourado — flutua junto com a imagem */}
+              <motion.div
+                className="absolute -bottom-8 -right-4 z-20 animate-float select-none"
+                style={{ animationDelay: "0.5s" }}
+                initial={{ opacity: 0, scale: 0.7, rotate: 12 }}
+                animate={{ opacity: 1, scale: 1, rotate: 6 }}
+                transition={{ duration: 0.9, delay: 0.8, ease }}
+              >
+                {/* Glow externo */}
+                <div className="absolute inset-0 rounded-full blur-xl opacity-70"
+                  style={{ background: "radial-gradient(circle, #FFD700 0%, #B8860B 70%, transparent 100%)" }} />
+
+                {/* Corpo do selo */}
+                <div className="relative h-36 w-36 rounded-full flex flex-col items-center justify-center overflow-visible"
+                  style={{
+                    background: "radial-gradient(circle at 38% 32%, #FFE94D, #D4900A 55%, #8B5A00 100%)",
+                    boxShadow: "0 4px 24px rgba(180,120,0,0.55), inset 0 2px 6px rgba(255,255,200,0.35), inset 0 -3px 6px rgba(80,40,0,0.3)",
+                  }}
+                >
+                  {/* Anel interno */}
+                  <div className="absolute inset-2 rounded-full border-2 border-yellow-200/50 pointer-events-none" />
+                  <div className="absolute inset-4 rounded-full border border-yellow-100/25 pointer-events-none" />
+
+                  {/* Coroa */}
+                  <div className="absolute -top-4 text-2xl drop-shadow-md leading-none">👑</div>
+
+                  {/* Estrelas */}
+                  <div className="mt-4 flex gap-0.5 text-yellow-200 text-[9px]">
+                    {"★★★★★".split("").map((s, i) => <span key={i}>{s}</span>)}
+                  </div>
+
+                  {/* 150+ */}
+                  <div className="font-sans text-[2rem] font-black leading-none text-white"
+                    style={{ textShadow: "0 2px 4px rgba(0,0,0,0.4)" }}>
+                    150+
+                  </div>
+
+                  {/* Figurinhas para colecionar */}
+                  <div className="text-center text-[8px] font-bold uppercase leading-tight text-yellow-100 px-3"
+                    style={{ textShadow: "0 1px 3px rgba(0,0,0,0.35)" }}>
+                    Figurinhas<br />para colecionar
+                  </div>
+
+                  {/* Faixa roxa — EXCLUSIVAS */}
+                  <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-[115%]">
+                    <div className="relative flex items-center justify-center py-1 px-2"
+                      style={{
+                        background: "linear-gradient(135deg, #5B21B6, #7C3AED)",
+                        clipPath: "polygon(4% 0%, 96% 0%, 100% 50%, 96% 100%, 4% 100%, 0% 50%)",
+                        boxShadow: "0 3px 8px rgba(0,0,0,0.35)",
+                      }}>
+                      <span className="text-[9px] font-black uppercase tracking-[0.18em] text-white"
+                        style={{ textShadow: "0 1px 2px rgba(0,0,0,0.4)" }}>
+                        Exclusivas
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
             </div>
           </Reveal>
         </div>
