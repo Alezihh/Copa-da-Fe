@@ -34,16 +34,15 @@ import childAlbum from "@/assets/familia-album.png";
 import albumPages from "@/assets/album-open.jpg";
 import rarityCards from "@/assets/rarity-cards.jpg";
 
-import figJesus      from "@/assets/figurinhas/jesus.png";
-import figDavi       from "@/assets/figurinhas/davi.png";
-import figMoises     from "@/assets/figurinhas/moises.png";
-import figSalomao    from "@/assets/figurinhas/salomao.png";
-import figDaniel     from "@/assets/figurinhas/daniel.png";
-import figJoaoBatista from "@/assets/figurinhas/joao_batista.png";
-import figPedro      from "@/assets/figurinhas/pedro.png";
-import figElias      from "@/assets/figurinhas/elias.png";
-import figMariaNazare from "@/assets/figurinhas/maria_nazare.png";
-import figEster      from "@/assets/figurinhas/ester.png";
+import figJesus       from "@/assets/figurinhas/fig_jesus.png";
+import figAdao        from "@/assets/figurinhas/fig_adao.png";
+import figNoe         from "@/assets/figurinhas/fig_noe.png";
+import figAbraao      from "@/assets/figurinhas/fig_abraao.png";
+import figMoises      from "@/assets/figurinhas/fig_moises.png";
+import figDavi        from "@/assets/figurinhas/fig_davi.png";
+import figJoaoBatista from "@/assets/figurinhas/fig_joao_batista.png";
+import figJoao        from "@/assets/figurinhas/fig_joao.png";
+import figJudas       from "@/assets/figurinhas/fig_judas.png";
 
 export const Route = createFileRoute("/")({
   component: SalesPage,
@@ -449,20 +448,19 @@ function Team() {
 /* ---------------- Figurinha Carousel ---------------- */
 
 const TOP_FIGURINHAS = [
-  { img: figJesus,       num: "#01", name: "Jesus",          category: "Messias",             desc: "O Filho de Deus",                    special: true  },
-  { img: figDavi,        num: "#27", name: "Davi",           category: "Reis",                desc: "Homem segundo o coração de Deus",    special: false },
-  { img: figMoises,      num: "#17", name: "Moisés",         category: "Líderes",             desc: "Libertador de Israel",               special: false },
-  { img: figElias,       num: "#49", name: "Elias",          category: "Profetas",            desc: "O Profeta de Fogo",                  special: false },
-  { img: figSalomao,     num: "#28", name: "Salomão",        category: "Reis",                desc: "O Rei Sábio",                        special: false },
-  { img: figJoaoBatista, num: "#53", name: "João Batista",   category: "Precursores",         desc: "O Precursor do Messias",             special: false },
-  { img: figDaniel,      num: "#36", name: "Daniel",         category: "Profetas Maiores",    desc: "O Profeta do Exílio",                special: false },
-  { img: figPedro,       num: "#55", name: "Pedro",          category: "Apóstolos",           desc: "A Rocha da Igreja",                  special: false },
-  { img: figMariaNazare, num: "#81", name: "Maria de Nazaré",category: "Mulheres da Bíblia",  desc: "Mãe de Jesus",                       special: false },
-  { img: figEster,       num: "#78", name: "Ester",          category: "Mulheres da Bíblia",  desc: "Rainha que Salvou seu Povo",         special: false },
+  { img: figJesus,       num: "#01", name: "Jesus",        category: "Messias",     desc: "O Filho de Deus",                    special: true  },
+  { img: figDavi,        num: "#27", name: "Davi",         category: "Reis",        desc: "Homem segundo o coração de Deus",    special: false },
+  { img: figMoises,      num: "#17", name: "Moisés",       category: "Líderes",     desc: "Libertador de Israel",               special: false },
+  { img: figAdao,        num: "#02", name: "Adão",         category: "Patriarcas",  desc: "O Primeiro Homem",                   special: false },
+  { img: figNoe,         num: "#07", name: "Noé",          category: "Patriarcas",  desc: "Construtor da Arca",                 special: false },
+  { img: figAbraao,      num: "#09", name: "Abraão",       category: "Patriarcas",  desc: "Pai das Nações",                     special: false },
+  { img: figJoaoBatista, num: "#53", name: "João Batista", category: "Precursores", desc: "O Precursor do Messias",             special: false },
+  { img: figJoao,        num: "#58", name: "João",         category: "Apóstolos",   desc: "O Discípulo Amado",                  special: false },
+  { img: figJudas,       num: "#66", name: "Judas",        category: "Apóstolos",   desc: "O Traidor",                         special: false },
 ];
 
 const CARD_W = 192; // px — largura fixa de cada card
-const CARD_H = 307; // px — altura fixa (proporção 494×789 das figurinhas)
+const CARD_H = 266; // px — altura fixa (proporção ~370×514 das figurinhas reais)
 
 function FigurinhaCarousel() {
   const [emblaRef, emblaApi] = useEmblaCarousel({
