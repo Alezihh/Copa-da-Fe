@@ -48,7 +48,7 @@ import photoMariana    from "@/assets/depoimentos/mariana.jpg";
 import photoRoberto    from "@/assets/depoimentos/roberto.jpg";
 import photoCleide     from "@/assets/depoimentos/cleide.jpg";
 import photoPatricia   from "@/assets/depoimentos/patricia.jpg";
-import bannerMariana   from "@/assets/depoimentos/banner_mariana.jpg";
+import bannerMariana   from "@/assets/depoimentos/banner_mariana.png";
 import bannerRoberto   from "@/assets/depoimentos/banner_roberto.jpg";
 import bannerCleide    from "@/assets/depoimentos/banner_cleide.jpg";
 import bannerPatricia  from "@/assets/depoimentos/banner_patricia.jpg";
