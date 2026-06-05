@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/accordion";
 
 import heroAlbum from "@/assets/copa-da-fe-nobg.png";
-import childAlbum from "@/assets/child-album.jpg";
+import childAlbum from "@/assets/familia-album.png";
 import albumPages from "@/assets/album-pages.jpg";
 import rarityCards from "@/assets/rarity-cards.jpg";
 
