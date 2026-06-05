@@ -109,6 +109,73 @@ function SectionNumber({ n, label }: { n: string; label: string }) {
   );
 }
 
+/* ---------------- Countdown Timer ---------------- */
+
+const COUNTDOWN_KEY = "copa_fe_deadline";
+const DURATION_MS   = 24 * 60 * 60 * 1000; // 24 horas
+
+function getDeadline(): number {
+  if (typeof window === "undefined") return Date.now() + DURATION_MS;
+  const stored = localStorage.getItem(COUNTDOWN_KEY);
+  if (stored) {
+    const ts = parseInt(stored, 10);
+    if (ts > Date.now()) return ts;
+  }
+  const deadline = Date.now() + DURATION_MS;
+  localStorage.setItem(COUNTDOWN_KEY, String(deadline));
+  return deadline;
+}
+
+function CountdownTimer() {
+  const [deadline]  = useState<number>(() => getDeadline());
+  const [timeLeft, setTimeLeft] = useState(Math.max(0, deadline - Date.now()));
+  const isUrgent = timeLeft < 60 * 60 * 1000; // < 1 hora
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setTimeLeft(Math.max(0, deadline - Date.now()));
+    }, 1000);
+    return () => clearInterval(id);
+  }, [deadline]);
+
+  const h  = String(Math.floor(timeLeft / 3_600_000)).padStart(2, "0");
+  const m  = String(Math.floor((timeLeft % 3_600_000) / 60_000)).padStart(2, "0");
+  const s  = String(Math.floor((timeLeft % 60_000) / 1_000)).padStart(2, "0");
+
+  const ringColor = isUrgent
+    ? "border-red-500/70 shadow-[0_0_18px_oklch(0.63_0.26_25/0.45)]"
+    : "border-gold/60  shadow-[0_0_18px_oklch(0.82_0.17_74/0.30)]";
+
+  return (
+    <div className={`inline-flex flex-col items-center gap-2 rounded-2xl border-2 px-5 py-3 backdrop-blur-sm bg-white/70 transition-all duration-700 ${ringColor}`}>
+      {/* Label */}
+      <div className="flex items-center gap-2">
+        <Zap className={`h-3.5 w-3.5 ${isUrgent ? "text-red-500" : "text-gold"}`} />
+        <span className={`text-[11px] font-bold uppercase tracking-[0.22em] ${isUrgent ? "text-red-600" : "text-navy-deep/70"}`}>
+          {isUrgent ? "Últimas horas — oferta expira em:" : "Oferta por tempo limitado — expira em:"}
+        </span>
+      </div>
+      {/* Dígitos */}
+      <div className="flex items-center gap-1.5">
+        {[h, m, s].map((val, i) => (
+          <span key={i} className="flex items-center gap-1.5">
+            <span className={`min-w-[2.4rem] rounded-lg px-2 py-1 text-center font-display text-2xl font-bold tabular-nums leading-none ${isUrgent ? "bg-red-50 text-red-600" : "bg-navy-deep/8 text-navy-deep"}`}>
+              {val}
+            </span>
+            {i < 2 && <span className={`text-xl font-bold ${isUrgent ? "text-red-400" : "text-gold"}`}>:</span>}
+          </span>
+        ))}
+      </div>
+      {/* Sub-labels */}
+      <div className="flex gap-6 text-[9px] font-semibold uppercase tracking-widest text-navy-deep/40">
+        <span className="min-w-[2.4rem] text-center">Horas</span>
+        <span className="min-w-[2.4rem] text-center">Min</span>
+        <span className="min-w-[2.4rem] text-center">Seg</span>
+      </div>
+    </div>
+  );
+}
+
 function PrimaryCTA({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
     <a
@@ -193,8 +260,14 @@ function Hero() {
               </p>
             </Reveal>
 
-            <Reveal delay={0.24}>
-              <div className="mt-8 flex flex-col items-start gap-5">
+            <Reveal delay={0.22}>
+              <div className="mt-7">
+                <CountdownTimer />
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.30}>
+              <div className="mt-7 flex flex-col items-start gap-5">
                 <PrimaryCTA>Quero começar minha coleção</PrimaryCTA>
                 <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-semibold uppercase tracking-wider text-navy-deep/60">
                   <span className="inline-flex items-center gap-2"><Lock className="h-3.5 w-3.5 text-gold" /> Compra Segura</span>
